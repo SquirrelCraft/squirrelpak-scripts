@@ -1,0 +1,11 @@
+# SquirrelCraft SquirrelPAK
+#
+
+PAK_NAME="XXYY"
+PAK_RELEASE=0.alpha
+PAK_VER="$PAK_RELEASE-x.yy.z"
+PAK_DESC="Pack Name"
+
+PAK_Menu_Beta_Text="&cAlpha"
+
+PAK_Menu_Config_Dir="./config/fancymenu/logos"
