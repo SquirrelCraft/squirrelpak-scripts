@@ -1,5 +1,5 @@
 #
-#     Internal Server Scripts - SquirrelPAK LP20 Only
+#     Internal Server Scripts - SquirrelPAK xxxx Only
 #     
 #     These scripts are for our internal use. You may use them for your 
 #     own servers but at your own risk! We are using MineOS
@@ -7,7 +7,7 @@
 #     Installed at /srvroot/srv-maint by squirrelpak/bin/create_server_pack.sh
 #
 #     Copyright (C) 2023 The Network Squirrel(SquirrelCraft)
-#     https://github.com/SquirrelCraft     
+#     https://github.com/SquirrelCraft/squirrelpak-scripts     
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by

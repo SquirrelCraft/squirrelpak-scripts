@@ -5,12 +5,12 @@
 #
 #
 #     Internal Script 
-#     v1.0
+#     v1.2
 
 
 #     squirrelpak/bin/create_server_pack.sh
 #     Copyright (C) 2023 The Network Squirrel(SquirrelCraft)
-#     https://github.com/SquirrelCraft     
+#     https://github.com/SquirrelCraft/squirrelpak-scripts     
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -28,11 +28,11 @@
     
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK Server Export Script v1.0"
+echo "  SquirrelPAK Server Export Script v1.2"
 echo "  (create_server_pack.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
 echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
-echo " | https://github.com/SquirrelCraft                                         |"
+echo " | https://github.com/SquirrelCraft/squirrelpak-scripts                     |"
 echo " | This program comes with ABSOLUTELY NO WARRANTY; This is free software,   |"
 echo " | and you are welcome to redistribute it under certain conditions          |"
 echo " ----------------------------------------------------------------------------"
@@ -129,7 +129,7 @@ cd $SCSP_Server_Dir
 
 while IFS= read -r file; do
 
-	if [[ $file = *\#* ]]
+	if [[ $file = \#* ]]
 	then
 		echo " $file"
 	else

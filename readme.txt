@@ -1,4 +1,4 @@
-# SquirrelCraft SquirrelPAK script files - 3.0
+# SquirrelCraft SquirrelPAK script files - 3.1
 #
 # This folder is used for the creation and maintenance	
 # of our SquirrelPAKs. All files under the squirrelpak 

@@ -2,12 +2,12 @@
 #
 #     Internal script to ready for Export to CF
 #
-#     v2.1
+#     v2.2
 # 
 
 #     /squrrelpak/bin/ready_for_export.sh
 #     Copyright (C) 2023 The Network Squirrel(SquirrelCraft)
-#     https://github.com/SquirrelCraft     
+#     https://github.com/SquirrelCraft/squirrelpak-scripts     
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -25,11 +25,11 @@
 
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK CF Export Script v2.1"
+echo "  SquirrelPAK CF Export Script v2.2"
 echo "  (ready_for_export.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
 echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
-echo " | https://github.com/SquirrelCraft                                         |"
+echo " | https://github.com/SquirrelCraft/squirrelpak-scripts                     |"
 echo " | This program comes with ABSOLUTELY NO WARRANTY; This is free software,   |"
 echo " | and you are welcome to redistribute it under certain conditions          |"
 echo " ----------------------------------------------------------------------------"
@@ -227,7 +227,7 @@ while IFS= read -r file; do
 	if [[ $file = \#* ]]
 	then
 		echo " Added $file"
-		echo " $file" >> $PAK_etc_dir/client_mod_remove_list.txt
+		echo "$file" >> $PAK_etc_dir/client_mod_remove_list.txt
 	else
 		ls -y mods/$file
         ls -y mods/$file >> $PAK_etc_dir/client_mod_remove_list.txt
@@ -343,8 +343,17 @@ Notes Here
  
  
 Mod Changes from v$PAK_VER
+
+
+Added Mods:
+------------------------------------------- 
+None
 ------------------------------------------- 
 
+Removed Mods:
+------------------------------------------- 
+None
+------------------------------------------- 
 
 EOF
 else
@@ -374,7 +383,7 @@ else
     echo " Addng mod diff to changelog"
 cat <<EOF >> $PAK_ChangeLog
 -------------------------------------------
-Mod Changes:
+Updated Mods:
 -------------------------------------------
 [Key Codes]
 |  = Mod Updated

@@ -2,12 +2,12 @@
 #
 #     Internal script to re-ready for Export to CF
 #
-#     v2.0
+#     v2.1
 # 
 
 #     /squrrelpak/bin/redo-ready_for_export.sh
 #     Copyright (C) 2023 The Network Squirrel(SquirrelCraft)
-#     https://github.com/SquirrelCraft     
+#     https://github.com/SquirrelCraft/squirrelpak-scripts     
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -25,11 +25,11 @@
 
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK CF Re-Export Script v2.0"
+echo "  SquirrelPAK CF Re-Export Script v2.1"
 echo "  (redo-ready_for_export.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
 echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
-echo " | https://github.com/SquirrelCraft                                         |"
+echo " | https://github.com/SquirrelCraft/squirrelpak-scripts                     |"
 echo " | This program comes with ABSOLUTELY NO WARRANTY; This is free software,   |"
 echo " | and you are welcome to redistribute it under certain conditions          |"
 echo " ----------------------------------------------------------------------------"

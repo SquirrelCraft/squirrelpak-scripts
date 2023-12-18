@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-#     Internal Server Script - SquirrelPAK LP20 Only
+#     Internal Server Script - SquirrelPAK xxxxx Only
 #     Backups server files and ready the server for a mod update
 #     cmd_ready_for_upgrade.sh
-#     v1.0
+#     v1.1
 # 
 #     Copyright (C) 2023 The Network Squirrel(SquirrelCraft)
-#     https://github.com/SquirrelCraft     
+#     https://github.com/SquirrelCraft/squirrelpak-scripts     
 #
 #     This program is free software: you can redistribute it and/or modify
 #     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,19 @@
 
 
 # cmd_ready_for_upgrade.sh
+
+echo " "
+echo " ----------------------------------------------------------------------------"
+echo "  SquirrelPAK Internal Server Script - SquirrelPAK xxxxxx Only"
+echo "  (cmd_ready_for_upgrade.sh) - v1.1 - Licnesed under GNU GPLv3"
+echo "  Backups server files and ready the server for a mod update "
+echo " ----------------------------------------------------------------------------"
+echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
+echo " | https://github.com/SquirrelCraft/squirrelpak-scripts                     |"
+echo " | This program comes with ABSOLUTELY NO WARRANTY; This is free software,   |"
+echo " | and you are welcome to redistribute it under certain conditions          |"
+echo " ----------------------------------------------------------------------------"
+echo " "
 
 echo "Remove old backup files"
 echo " "
