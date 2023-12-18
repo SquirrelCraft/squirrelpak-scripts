@@ -5,7 +5,7 @@
 #
 #
 #     Internal Script 
-#     v1.2
+#     v1.3
 
 
 #     squirrelpak/bin/create_server_pack.sh
@@ -28,7 +28,7 @@
     
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK Server Export Script v1.2"
+echo "  SquirrelPAK Server Export Script v1.3"
 echo "  (create_server_pack.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
 echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
@@ -131,7 +131,7 @@ while IFS= read -r file; do
 
 	if [[ $file = \#* ]]
 	then
-		echo " $file"
+		echo "$file"
 	else
 		echo " delete file $file"
 		pwd

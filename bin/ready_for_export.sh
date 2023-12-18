@@ -2,7 +2,7 @@
 #
 #     Internal script to ready for Export to CF
 #
-#     v2.2
+#     v2.3
 # 
 
 #     /squrrelpak/bin/ready_for_export.sh
@@ -25,7 +25,7 @@
 
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK CF Export Script v2.2"
+echo "  SquirrelPAK CF Export Script v2.3"
 echo "  (ready_for_export.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
 echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
@@ -317,7 +317,6 @@ SquirrelPAK $PAK_NAME Release $PAK_RELEASE
 File Version $PAK_VER
 =====================================================
 
-
 EOF
 
 echo " done"
@@ -341,20 +340,9 @@ Change Log Notes - Title Here
 Summary:
 Notes Here
  
- 
-Mod Changes from v$PAK_VER
-
-
-Added Mods:
-------------------------------------------- 
-None
-------------------------------------------- 
-
-Removed Mods:
-------------------------------------------- 
-None
-------------------------------------------- 
-
+-------------------------------------------
+ Mod Changes from v$PAK_VER
+-------------------------------------------
 EOF
 else
    echo "  No change log notes found, adding Add notes here tag"
@@ -382,9 +370,7 @@ if [ "$PAK_Current_Version" == "None" ]; then
 else
     echo " Addng mod diff to changelog"
 cat <<EOF >> $PAK_ChangeLog
--------------------------------------------
-Updated Mods:
--------------------------------------------
+
 [Key Codes]
 |  = Mod Updated
 <  = Mod Added
