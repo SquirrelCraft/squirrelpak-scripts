@@ -1,4 +1,4 @@
-# SquirrelCraft SquirrelPAK script files - 3.1
+# SquirrelCraft SquirrelPAK script files - 3.2
 #
 # This folder is used for the creation and maintenance	
 # of our SquirrelPAKs. All files under the squirrelpak 
@@ -18,16 +18,6 @@
 #      wtd_state_vs_other - Displays diff between current version mod directory
 #      wtd.sh - Displays diff between versions
 #
-# bin
-#    L server - Customized to each pack for server maintenance
-#          L cmd_cleanup_backups.sh - Removes backup files
-#            cmd_cleanup_restore.sh - Remove restore files
-#            cmd_post_upgrade.sh - Things to do post upgrade
-#            cmd_ready_for_upgrade.sh - Create backup files before upgrade
-#            cmd_restore_from_backup.sh - Restore from backup
-#            readme.txt - Readme File
-#            
-#
 #
 # etc - Config Files
 #    L changelog-end-template.txt - Will be put at the end of the changelog on export
@@ -38,7 +28,27 @@
 #      previous_version.txt - Previous version of the pack, used for scripts
 #      version.txt - Version and name of pack, used for scripts
 #
+#
+# server-scripts - Customized to each pack for server maintenance
+#          L cmd_cleanup_backups.sh - Removes backup files
+#            cmd_cleanup_restore.sh - Remove restore files
+#            cmd_post_upgrade.sh - Things to do post upgrade
+#            cmd_ready_for_upgrade.sh - Create backup files before upgrade
+#            cmd_restore_from_backup.sh - Restore from backup
+#            readme.txt - Readme File
+#
+#
 # versions - Folder with list of mods for that specific version
 #
 # LICENSE - The license file
 # readme.txt - This file
+
+# Squirrel PAK Version Types and Numbering
+
+# Alpha Builds: Unstable/Dev - vX-APLHA-1.YY.Y
+# Beta Builds: Testing - v0.X.X-BETA-1.YY.Y
+# Release Builds - vX.X.X-1.YY.Y
+
+
+
+

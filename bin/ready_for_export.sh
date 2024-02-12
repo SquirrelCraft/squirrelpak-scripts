@@ -2,7 +2,7 @@
 #
 #     Internal script to ready for Export to CF
 #
-#     v2.3
+#     v2.4
 # 
 
 #     /squrrelpak/bin/ready_for_export.sh
@@ -25,7 +25,7 @@
 
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK CF Export Script v2.3"
+echo "  SquirrelPAK CF Export Script v2.4"
 echo "  (ready_for_export.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
 echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
@@ -102,6 +102,7 @@ echo " "
 echo " PAK_NAME=$PAK_NAME "
 echo " PAK_RELEASE=$PAK_RELEASE "
 echo " PAK_VER=$PAK_VER "
+echo " PAK_FORGE_VER=$PAK_FORGE_VER"
 echo " PAK_DESC=$PAK_DESC "
 echo " PAK_Menu_Beta_Text=$PAK_Menu_Beta_Text "
 echo " PAK_Menu_Config_Dir=$PAK_Menu_Config_Dir "
@@ -315,6 +316,8 @@ $PAK_Full_Ver_Name
 =====================================================
 SquirrelPAK $PAK_NAME Release $PAK_RELEASE
 File Version $PAK_VER
+
+Required Forge Version: $PAK_FORGE_VER
 =====================================================
 
 EOF

@@ -5,7 +5,7 @@
 #
 #
 #     Internal Script 
-#     v1.3
+#     v1.6
 
 
 #     squirrelpak/bin/create_server_pack.sh
@@ -28,7 +28,7 @@
     
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK Server Export Script v1.3"
+echo "  SquirrelPAK Server Export Script v1.6"
 echo "  (create_server_pack.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
 echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
@@ -65,11 +65,54 @@ if [ ! -f "$Script_Dir/squirrelpak/etc/client_mod_remove_list.txt" ]; then
 fi
 
 
-# Pack Name / Ver
-source ./squirrelpak/etc/version.txt
+# Set local vars
+echo " Setting local var"
+PAK_bin_dir=./squirrelpak/bin
+PAK_etc_dir=./squirrelpak/etc
+PAK_versons_dir=./squirrelpak/versions
+
+echo " Local vars Set!"
+echo " Script_Dir=$Script_Dir"
+echo " PAK_ChangeLog=$PAK_ChangeLog"
+echo " PAK_bin_dir=$PAK_bin_dir"
+echo " PAK_etc_dir=$PAK_etc_dir"
+echo " PAK_versons_dir=$PAK_versons_dir"
+echo " "
+echo " ----------------------------------------------------------------------------"
+
+# Read config files
+echo " Reading config files"
+source $PAK_etc_dir/version.txt
+source $PAK_etc_dir/current_version.txt
+source $PAK_etc_dir/previous_version.txt
+
+PAK_Full_Ver_Name="SquirrelPAK $PAK_NAME - $PAK_DESC v$PAK_VER"
+PAK_Exported_ModListName=$PAK_NAME-v$PAK_VER-ModsList.txt
+PAK_Short_Ver_Name="SquirrelPAK $PAK_NAME - v$PAK_VER"
+
+
+echo " Config files loaded, loaded config below:"
+echo " "
+echo " PAK_NAME=$PAK_NAME "
+echo " PAK_RELEASE=$PAK_RELEASE "
+echo " PAK_VER=$PAK_VER "
+echo " PAK_DESC=$PAK_DESC "
+echo " PAK_FORGE_VER=$PAK_FORGE_VER"
+echo " PAK_Menu_Beta_Text=$PAK_Menu_Beta_Text "
+echo " PAK_Menu_Config_Dir=$PAK_Menu_Config_Dir "
+echo " PAK_Current_Version=$PAK_Current_Version "
+echo " PAK_Previous_Version=$PAK_Previous_Version "
+echo " PAK_Full_Ver_Name=$PAK_Full_Ver_Name "
+echo " PAK_Short_Ver_Name=$PAK_Short_Ver_Name "
+echo " PAK_Exported_ModListName=$PAK_Exported_ModListName "
+
+echo " "
+echo " ----------------------------------------------------------------------------"
+
 
 SCSP_Server_Dir="/tmp/Server-SquirrelPAK-$PAK_NAME-v$PAK_VER"
 SCSP_Server_File="$Script_Dir/Server-SquirrelPAK-$PAK_NAME-v$PAK_VER.zip"
+SCSP_Server_ChangeLog_File="$Script_Dir/Server-SquirrelPAK-$PAK_NAME-v$PAK_VER-ChangeLog.txt"
 
 echo " "
 echo "Creating Server File for SquirrelPAK $PAK_NAME - $PAK_DESC v$PAK_VER"
@@ -149,6 +192,36 @@ ls -y $SCSP_Server_Dir/mods >> $SCSP_Server_Dir/$PAK_NAME-v$PAK_VER-Server-ModsL
 echo " File $PAK_NAME-v$PAK_VER-Server-ModsList.txt created"
 echo " "
 
+echo " Create Server PAK Change Log File at $SCSP_Server_ChangeLog_File"
+cat <<EOF > "$SCSP_Server_ChangeLog_File"
+
+Server PAK for SquirrelPAK $PAK_NAME - $PAK_DESC v$PAK_VER
+
+=====================================================
+Server PAK - SquirrelPAK $PAK_NAME
+Release Version $PAK_VER
+
+Forge Version: $PAK_FORGE_VER
+=====================================================
+ 
+This is the Server PAK for our $PAK_NAME Mod PAK 
+for version v$PAK_VER of $PAK_NAME
+
+Requires forge version $PAK_FORGE_VER
+ 
+For Mod PAK change log see the change log in the zip file.
+ 
+ 
+ 
+How to Setup MineOS server using this PAK
+https://youtu.be/NWExGuf30mE
+ 
+
+How to Update Your MineOS server using this PAK
+https://youtu.be/u02JrGBAdLk
+
+EOF
+echo " "
 
 echo " "
 echo " Create zip file..."
