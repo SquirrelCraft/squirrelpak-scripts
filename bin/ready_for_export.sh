@@ -2,11 +2,11 @@
 #
 #     Internal script to ready for Export to CF
 #
-#     v2.4
+#     v3.0
 # 
 
 #     /squrrelpak/bin/ready_for_export.sh
-#     Copyright (C) 2023 The Network Squirrel(SquirrelCraft)
+#     Copyright (C) 2024 The Network Squirrel(SquirrelCraft)
 #     https://github.com/SquirrelCraft/squirrelpak-scripts     
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -25,10 +25,10 @@
 
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK CF Export Script v2.4"
+echo "  SquirrelPAK CF Export Script v3.0"
 echo "  (ready_for_export.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
-echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
+echo " | Copyright (C) 2024 The Network Squirrel(SquirrelCraft)                   |"
 echo " | https://github.com/SquirrelCraft/squirrelpak-scripts                     |"
 echo " | This program comes with ABSOLUTELY NO WARRANTY; This is free software,   |"
 echo " | and you are welcome to redistribute it under certain conditions          |"
@@ -37,6 +37,8 @@ echo " "
 
 Script_Dir=$PWD 
 PAK_ChangeLog=./changelog.txt
+PAK_Removed_Files_Base_Dir=./zz-do-not-export
+PAK_Export_Timestamp_File=$PAK_Removed_Files_Base_Dir/exported.timestamp
 
 # We should be in the root dir where the changelog is
 # located, if not exit
@@ -55,6 +57,33 @@ echo " PWD=$PWD"
 echo " Script: Checking running directory (Ok)"
 echo " "
 echo " ----------------------------------------------------------------------------"
+
+
+
+echo " Script: Checking for exported time stamp file"
+if [ -f $PAK_Export_Timestamp_File ]; then
+    echo " "
+    echo "  Project has already been exported!"
+    echo "  File $PAK_Export_Timestamp_File has been found"
+    echo " "
+    echo " -------------------------------------------------------"
+    echo "Exported Time Stamp Details:"
+    echo " -------------------------------------------------------"
+    echo " "
+    cat $PAK_Export_Timestamp_File
+    echo " -------------------------------------------------------"
+    echo " END OF FILE"
+    echo " -------------------------------------------------------"
+    echo " "
+        
+    echo "  The script exiting! We did nothing!"
+    echo " "
+    exit 1
+fi
+echo " Script: No exported time stamp file found"
+echo " "
+echo " ----------------------------------------------------------------------------"
+
 
 echo " Script: Checking to see if project is marked Ready to Export"
 if [ ! -f ./ready2.export ]; then
@@ -76,6 +105,10 @@ echo " Setting local var"
 PAK_bin_dir=./squirrelpak/bin
 PAK_etc_dir=./squirrelpak/etc
 PAK_versons_dir=./squirrelpak/versions
+PAK_export_history_base_dir=$PAK_Removed_Files_Base_Dir/0-export-history
+PAK_last_export_history=$PAK_export_history_base_dir/last-export
+PAK_Timestamp=`date +"%C%y%m%d%H%M"`
+
 
 echo " Local vars Set!"
 echo " Script_Dir=$Script_Dir"
@@ -83,6 +116,11 @@ echo " PAK_ChangeLog=$PAK_ChangeLog"
 echo " PAK_bin_dir=$PAK_bin_dir"
 echo " PAK_etc_dir=$PAK_etc_dir"
 echo " PAK_versons_dir=$PAK_versons_dir"
+echo " PAK_export_history_base_dir=$PAK_export_history_base_dir"
+echo " PAK_last_export_history=$PAK_last_export_history"
+echo " PAK_Timestamp=$PAK_Timestamp"
+echo " PAK_Export_Timestamp_File=$PAK_Export_Timestamp_File"
+echo " PAK_Removed_Files_Base_Dir=$PAK_Removed_Files_Base_Dir"
 echo " "
 echo " ----------------------------------------------------------------------------"
 
@@ -95,6 +133,11 @@ source $PAK_etc_dir/previous_version.txt
 PAK_Full_Ver_Name="SquirrelPAK $PAK_NAME - $PAK_DESC v$PAK_VER"
 PAK_Exported_ModListName=$PAK_NAME-v$PAK_VER-ModsList.txt
 PAK_Short_Ver_Name="SquirrelPAK $PAK_NAME - v$PAK_VER"
+
+PAK_Removed_Files_Export_Dir=$PAK_Removed_Files_Base_Dir/$PAK_RELEASE-$PAK_Timestamp
+
+PAK_export_history_prev_dir=$PAK_export_history_base_dir/last-export
+PAK_export_history_ver_dir=$PAK_export_history_base_dir/$PAK_RELEASE-$PAK_Timestamp
 
 
 echo " Config files loaded, loaded config below:"
@@ -111,7 +154,12 @@ echo " PAK_Previous_Version=$PAK_Previous_Version "
 echo " PAK_Full_Ver_Name=$PAK_Full_Ver_Name "
 echo " PAK_Short_Ver_Name=$PAK_Short_Ver_Name "
 echo " PAK_Exported_ModListName=$PAK_Exported_ModListName "
-
+echo " PAK_Removed_Files_Export_Dir=$PAK_Removed_Files_Export_Dir"
+echo " PAK_CUR_VER=$PAK_CUR_VER"
+echo " PAK_PREV_VER=$PAK_PREV_VER"
+echo " PAK_export_history_base_dir=$PAK_export_history_base_dir"
+echo " PAK_export_history_prev_dir=$PAK_export_history_prev_dir"
+echo " PAK_export_history_ver_dir=$PAK_export_history_ver_dir"
 echo " "
 echo " ----------------------------------------------------------------------------"
 
@@ -132,78 +180,124 @@ else
 echo " ----------------------------------------------------------------------------"
 fi
 
+# Check for export directories exists
+echo " "
+echo " Check that $PAK_Removed_Files_Base_Dir exists"
+if [ ! -d $PAK_Removed_Files_Base_Dir ]; then
+    echo " "
+    echo " Directoy does not exist, create it"
+    mkdir -v $PAK_Removed_Files_Base_Dir
+else
+    echo " $PAK_Removed_Files_Base_Dir found, moving on"
+    echo " ----------------------------------------------------------------------------"
+fi
 
+
+echo " "
+echo " Check that $PAK_export_history_base_dir exists"
+if [ ! -d $PAK_export_history_base_dir ]; then
+    echo " "
+    echo " Directoy does not exist, create it"
+    mkdir -v $PAK_export_history_base_dir
+else
+    echo " $PAK_export_history_base_dir found, moving on"
+    echo " ----------------------------------------------------------------------------"
+fi
+
+
+echo " "
+echo " Check that $PAK_last_export_history exists"
+if [ ! -d $PAK_last_export_history ]; then
+    echo " "
+    echo " Directoy does not exist, create it"
+    mkdir -v $PAK_last_export_history
+else
+    echo " $PAK_last_export_history found, moving on"
+    echo " ----------------------------------------------------------------------------"
+fi
+ 
 echo " "
 echo " Getting Ready for Export!!"
 echo " $PAK_Full_Ver_Name"
 
 
-# Remove unneeded dir
-echo " Remove un-needed files.."
+# Move unneeded dir
+echo " Move un-needed files to:"
+echo " $PAK_Removed_Files_Export_Dir"
 echo " "
 
+echo " Create folder"
+echo " $PAK_Removed_Files_Export_Dir"
 echo " "
-echo " Removing fancymenu_setups..."
-rm -vR fancymenu_setups
+mkdir $PAK_Removed_Files_Export_Dir
 
 echo " "
-echo " Removing crash-reports..."
-rm -vR crash-reports
+echo " Moving fancymenu_setups..."
+mv -v fancymenu_setups $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing local..."
-rm -vR local 
+echo " Moving crash-reports..."
+mv -v crash-reports $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing journeymap files ..."
-rm -vR journeymap/data
-rm -vR journeymap/server 
-rm -v journeymap/journeymap.log
+echo " Moving local..."
+mv -v local $PAK_Removed_Files_Export_Dir/
+
+echo " "
+echo " Moving journeymap files ..."
+mv -v journeymap/data $PAK_Removed_Files_Export_Dir/journeymap/
+mv -v journeymap/server $PAK_Removed_Files_Export_Dir/journeymap/
+mv -v journeymap/journeymap.log $PAK_Removed_Files_Export_Dir/journeymap/
  
 
 echo " "
-echo " Removing fancymenu_data..."
-rm -vR fancymenu_data
+echo " Moving fancymenu_data..."
+mv -v fancymenu_data $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing fancymenu_setups..."
-rm -vR fancymenu_setups
+echo " Moving fancymenu_setups..."
+mv -v fancymenu_setups $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing fancymenu_instance_data..."
-rm -vR fancymenu_instance_data
+echo " Moving fancymenu_instance_data..."
+mv -v fancymenu_instance_data $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing logs..."
-rm -vR logs
-rm -v hs_err_*
+echo " Moving logs..."
+mv -v logs $PAK_Removed_Files_Export_Dir/
+mv -v hs_err_* $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing backups..."
-rm -vR backups
+echo " Moving backups..."
+mv -v backups $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing patchouli_data.json..."
-rm -v patchouli_data.json
+echo " Moving patchouli_data.json..."
+mv -v patchouli_data.json $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing knownkeys.txt..."
-rm -v knownkeys.txt
+echo " Moving knownkeys.txt..."
+mv -v knownkeys.txt $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing realms_persistence.json..."
-rm -v realms_persistence.json
+echo " Moving realms_persistence.json..."
+mv -v realms_persistence.json $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing usercache.json..."
-rm -v usercache.json
+echo " Moving usercache.json..."
+mv -v usercache.json $PAK_Removed_Files_Export_Dir/
 
 echo " "
-echo " Removing options.txt..."
-rm -v options.txt
+echo " Moving options.txt..."
+mv -v options.txt $PAK_Removed_Files_Export_Dir/
 echo " "
 echo " "
 
+echo " "
+echo " Moving servers.dat..."
+mv -v servers.dat* $PAK_Removed_Files_Export_Dir/
+echo " "
+echo " "
 
 # Remove DS_Store files
 echo " Removing DS_Store files..."
@@ -250,6 +344,32 @@ echo " "
 echo " ----------------------------------------------------------------------------"
 
 
+# Clean up prev PAK_export_history_ver_dir
+echo " Cleaning last export history folder at"
+echo " $PAK_export_history_prev_dir"
+
+echo " Run CMD: rm -Rv $PAK_export_history_prev_dir"
+rm -Rv $PAK_export_history_prev_dir
+echo " Done!"
+echo " "
+echo " Run CMD: mkdir -v $PAK_export_history_prev_dir"
+mkdir -v $PAK_export_history_prev_dir
+echo " Done!"
+
+
+echo " Cleaning previous backup folder complete!"
+echo " "
+echo " ----------------------------------------------------------------------------"
+echo " "
+
+echo " Backup $PAK_etc_dir/previous_version.txt to"
+echo " $PAK_export_history_prev_dir/previous_version.txt"
+cp -v $PAK_etc_dir/previous_version.txt $PAK_export_history_prev_dir/previous_version.txt
+echo " "
+echo " Done!"
+echo " ----------------------------------------------------------------------------"
+echo " "
+
 echo " "
 echo " Set previous version with current version:"
 echo " $PAK_Previous_Version to $PAK_Exported_ModListName"
@@ -257,14 +377,26 @@ echo " "
 echo " "
 echo "# This file is auto created by ready_for_export.sh" > $PAK_etc_dir/previous_version.txt
 echo "#" >> $PAK_etc_dir/previous_version.txt
-echo "# No not edit directly, bad things could happen" >> $PAK_etc_dir/previous_version.txt
+echo "# Do not edit directly, bad things could happen" >> $PAK_etc_dir/previous_version.txt
 echo "#" >> $PAK_etc_dir/previous_version.txt
 echo "#" >> $PAK_etc_dir/previous_version.txt
 echo "PAK_Previous_Version=$PAK_Current_Version" >> $PAK_etc_dir/previous_version.txt
 echo " PAK_Previous_Version=$PAK_Current_Version"
+echo "PAK_PREV_VER=$PAK_CUR_VER" >> $PAK_etc_dir/previous_version.txt
+echo " PAK_PREV_VER=$PAK_CUR_VER" 
+echo " "
 echo " done!"
 echo " "
 echo " ----------------------------------------------------------------------------"
+
+
+echo " Backup $PAK_etc_dir/current_version.txt to"
+echo " $PAK_export_history_prev_dir/current_version.txt"
+cp -v $PAK_etc_dir/current_version.txt $PAK_export_history_prev_dir/current_version.txt
+echo " "
+echo " Done!"
+echo " ----------------------------------------------------------------------------"
+echo " "
 
 echo " "
 echo " Set the new current version"
@@ -272,11 +404,14 @@ echo " $PAK_Current_Version to $PAK_Exported_ModListName"
 echo " "
 echo "# This file is auto created by ready_for_export.sh" > $PAK_etc_dir/current_version.txt
 echo "#" >> $PAK_etc_dir/current_version.txt
-echo "# No not edit directly, bad things could happen" >> $PAK_etc_dir/current_version.txt
+echo "# Do not edit directly, bad things could happen" >> $PAK_etc_dir/current_version.txt
 echo "#" >> $PAK_etc_dir/current_version.txt
 echo "#" >> $PAK_etc_dir/current_version.txt
 echo "PAK_Current_Version=$PAK_Exported_ModListName" >> $PAK_etc_dir/current_version.txt
 echo " PAK_Current_Version=$PAK_Exported_ModListName"
+echo "PAK_CUR_VER=$PAK_RELEASE" >> $PAK_etc_dir/current_version.txt
+echo " PAK_CUR_VER=$PAK_RELEASE"
+echo " "
 echo " done!"
 echo " "
 echo " ----------------------------------------------------------------------------"
@@ -304,9 +439,28 @@ echo " "
 echo " ----------------------------------------------------------------------------"
 
 
+echo " Backup $PAK_ChangeLog to"
+echo " $PAK_export_history_prev_dir/changelog.txt"
+cp -v $PAK_ChangeLog $PAK_export_history_prev_dir/changelog.txt
 echo " "
-echo " Update changelog"
-echo " Backup change log"
+echo " Done!"
+echo " ----------------------------------------------------------------------------"
+echo " "
+
+
+echo " Backup $PAK_etc_dir/changelog-notes.txt to"
+echo " $PAK_export_history_prev_dir/changelog-notes.txt"
+cp -v $PAK_etc_dir/changelog-notes.txt $PAK_export_history_prev_dir/changelog-notes.txt
+echo " "
+echo " Done!"
+echo " ----------------------------------------------------------------------------"
+echo " "
+
+
+
+echo " "
+echo " Update the changelog"
+echo " Change changelog name to $PAK_ChangeLog.bak"
 mv -v $PAK_ChangeLog $PAK_ChangeLog.bak
 echo " "
 
@@ -411,12 +565,54 @@ echo " Copy change log history to new changelog"
 cat $PAK_ChangeLog.bak >> $PAK_ChangeLog
 echo " done"
 echo " "
-echo " Remove backup copy of changelog"
+echo " Remove copy of changelog"
 rm -v $PAK_ChangeLog.bak
 echo " done"
 echo " "
 
 echo " Update changelog complete!"
+echo " "
+echo " ----------------------------------------------------------------------------"
+echo " "
+
+
+# Stamp version history by copy version file
+echo " Record export history in file database"
+echo " - Copy $PAK_versons_dir/$PAK_Exported_ModListName to $PAK_export_history_prev_dir"
+cp -v $PAK_versons_dir/$PAK_Exported_ModListName $PAK_export_history_prev_dir/$PAK_Exported_ModListName
+echo     "done!"
+echo " "
+echo " - Create version stamp"
+echo "    - Make version directory"
+mkdir -v $PAK_export_history_ver_dir
+echo "      done!"
+echo " "
+echo "    - Copy files from PAK_export_history_prev_dir to: " 
+echo "      $PAK_export_history_ver_dir"
+cp -v $PAK_export_history_prev_dir/* $PAK_export_history_ver_dir
+echo "      done!"
+echo " "
+echo "    - Create Export Stamp File"
+cat <<EOF > $PAK_Export_Timestamp_File
+PAK_UNDO_VER_STAMP=$PAK_RELEASE-$PAK_Timestamp
+# Time Stamp File - $PAK_RELEASE-$PAK_Timestamp
+#
+# $PAK_Full_Ver_Name
+# =====================================================
+# SquirrelPAK $PAK_NAME Release $PAK_RELEASE
+# File Version $PAK_VER
+# 
+# Required Forge Version: $PAK_FORGE_VER
+# =====================================================
+
+EOF
+cp -v $PAK_Export_Timestamp_File $PAK_export_history_prev_dir
+cp -v $PAK_Export_Timestamp_File $PAK_export_history_ver_dir
+echo "      done!"
+echo " "
+echo "   done!"
+echo " "
+echo " Record export history in file database complete!"
 echo " "
 echo " ----------------------------------------------------------------------------"
 echo " "

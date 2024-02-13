@@ -1,4 +1,4 @@
-# SquirrelCraft SquirrelPAK script files - 3.2
+# SquirrelCraft SquirrelPAK script files - 3.3
 #
 # This folder is used for the creation and maintenance	
 # of our SquirrelPAKs. All files under the squirrelpak 
@@ -6,10 +6,23 @@
 # 
 # See the LICENSE file for full details
 #
+# - root of profile folder
+#    L changelog.txt - Change log that gets auto updated via ready to export script
+#      zz-do-not-export - Folder gets created all files are moved under sub folder here 
+#                          marked with ver#    
+#        L 0-export-history - Folder used for undo actions and documents exports with ver# 
+#            L X.Y.Z-xxxxxxx - For each version and time running export, config files are stored 
+#                              stored here.
+#          x.y.z-xxxxxxx - Folder has all folders that were moved as part of the export pruning
+#          processe
 #
 # bin - scripts
 #    L create_server_pack.sh - Creates a zip file for install on server
-#      ready_for_export.sh - Gets the project ready for CF Export
+#      make_new_ver.sh - Automates the new version process (for undo export)
+#      ready_for_export.sh - Gets the project ready for CF Export#      
+#      redo-ready_for_export.sh - Like ready for export but only removes files
+#      undo_ver.sh - Shows undo info to roll back a ready to export action
+#      undo-ready_for_export.sh - Rolls back all the changes made by using export command
 #      update_menus.sh - Updates menu version text for fancy menu
 #      ver.sh - Shows the current version set in version.txt vs current_version.txt
 #      wtd_current_vs_previous - Displays diff between current version and previous
@@ -27,6 +40,8 @@
 #      current_version.txt - Current version of the pack, used for scripts
 #      previous_version.txt - Previous version of the pack, used for scripts
 #      version.txt - Version and name of pack, used for scripts
+#      version.txt.undo - Backup of version file made after export
+#      version.txt.undo.backup - Backup of the undo file
 #
 #
 # server-scripts - Customized to each pack for server maintenance

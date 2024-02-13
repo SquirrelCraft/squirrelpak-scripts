@@ -4,3 +4,4 @@
 # 
 # 
 PAK_Previous_Version=None
+PAK_PREV_VER=None

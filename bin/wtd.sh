@@ -3,11 +3,11 @@
 #     Internal script to diff files
 #     wtd.sh - Shows the diff between two versions of the PAK
 #     wtd.sh [MODList1] [ModList2]
-#     v1.1
+#     v1.1.1
 # 
 
 #     wtd.sh - Shows the diff between two versions of the PAK
-#     Copyright (C) 2023 The Network Squirrel(SquirrelCraft)
+#     Copyright (C) 2024 The Network Squirrel(SquirrelCraft)
 #     https://github.com/SquirrelCraft/squirrelpak-scripts     
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -105,10 +105,10 @@ if [ ! "$3 " == "true " ]; then
 
 	echo " "
 	echo " ----------------------------------------------------------------------------"
-	echo "  SquirrelPAK Release Diff Tool v1.1"
+	echo "  SquirrelPAK Release Diff Tool v1.1.1"
 	echo "  (wtd.sh) - Licnesed under GNU GPLv3"
 	echo " ----------------------------------------------------------------------------"
-	echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
+	echo " | Copyright (C) 2024 The Network Squirrel(SquirrelCraft)                   |"
 	echo " | https://github.com/SquirrelCraft/squirrelpak-scripts                                         |"
 	echo " | This program comes with ABSOLUTELY NO WARRANTY; This is free software,   |"
 	echo " | and you are welcome to redistribute it under certain conditions          |"

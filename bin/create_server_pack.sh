@@ -5,11 +5,11 @@
 #
 #
 #     Internal Script 
-#     v1.6
+#     v1.6.1
 
 
 #     squirrelpak/bin/create_server_pack.sh
-#     Copyright (C) 2023 The Network Squirrel(SquirrelCraft)
+#     Copyright (C) 2024 The Network Squirrel(SquirrelCraft)
 #     https://github.com/SquirrelCraft/squirrelpak-scripts     
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -28,10 +28,10 @@
     
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK Server Export Script v1.6"
+echo "  SquirrelPAK Server Export Script v1.6.1"
 echo "  (create_server_pack.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
-echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
+echo " | Copyright (C) 2024 The Network Squirrel(SquirrelCraft)                   |"
 echo " | https://github.com/SquirrelCraft/squirrelpak-scripts                     |"
 echo " | This program comes with ABSOLUTELY NO WARRANTY; This is free software,   |"
 echo " | and you are welcome to redistribute it under certain conditions          |"
@@ -39,14 +39,28 @@ echo " -------------------------------------------------------------------------
 echo " "
 
 Script_Dir=$PWD 
-
+PAK_ChangeLog=./changelog.txt
+PAK_Removed_Files_Base_Dir=./zz-do-not-export
+PAK_Export_Timestamp_File=$PAK_Removed_Files_Base_Dir/exported.timestamp
 
 # We should be in the root dir where the changelog is
 # located, if not exit
-if [ ! -f ./changelog.txt ]; then
+if [ ! -f $PAK_ChangeLog ]; then
     echo " "
     echo "  Script must run in the root folder!"
     echo "  Script exiting!"
+    echo " "
+    exit 1
+fi
+
+# Must be in export state to run
+if [ ! -f "$PAK_Export_Timestamp_File" ]; then
+    echo " "
+    echo "  Missing Export Time Stamp!!"
+    echo "  Can not find file $PAK_Export_Timestamp_File"
+    echo "  Project must be in Exported State!"
+    echo " "
+    echo "  Script is exiting!"
     echo " "
     exit 1
 fi

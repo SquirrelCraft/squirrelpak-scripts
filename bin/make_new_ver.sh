@@ -1,12 +1,12 @@
 #!/bin/bash
 #
 #     Internal script
-#     Shows the current version set in version.txt vs current_version.txt
-#     ver.sh
-#     v2.0
+#     Creates new version
+#     make_new_ver.sh
+#     v1.0
 # 
 
-#     ver.sh - Shows the current version set in version.txt vs current_version.txt
+#     make_new_ver.sh - Creates a new version
 #     Copyright (C) 2024 The Network Squirrel(SquirrelCraft)
 #     https://github.com/SquirrelCraft/squirrelpak-scripts     
 #
@@ -25,7 +25,7 @@
  
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK Version Script v2.0"
+echo "  SquirrelPAK Make New Version Script v1.0"
 echo "  (ver.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
 echo " | Copyright (C) 2024 The Network Squirrel(SquirrelCraft)                   |"
@@ -36,13 +36,16 @@ echo " -------------------------------------------------------------------------
 echo " "
 
 Script_Dir=$PWD 
+PAK_ChangeLog=./changelog.txt
+PAK_Removed_Files_Base_Dir=./zz-do-not-export
+PAK_Export_Timestamp_File=$PAK_Removed_Files_Base_Dir/exported.timestamp
 
 # We should be in the root dir where the changelog is
 # located, if not exit
 
 if [ "$PAK_Debug " == "true " ]; then echo "Script: Checking running directory..."; fi
 
-if [ ! -f ./changelog.txt ]; then
+if [ ! -f $PAK_ChangeLog ]; then
     echo " "
     echo "PWD=$PWD"
     echo "Script must run in the root folder!"
@@ -73,54 +76,62 @@ if [ "$PAK_Debug " == "true " ]; then
     echo "PAK_bin_dir=$PAK_bin_dir"
     echo "PAK_etc_dir=$PAK_etc_dir"
     echo "PAK_versons_dir=$PAK_versons_dir"
+    echo "PAK_Export_Timestamp_File=$PAK_Export_Timestamp_File"
+	echo "PAK_Removed_Files_Base_Dir=$PAK_Removed_Files_Base_Dir"
     echo " "
 fi
 
 
-
-# Read config files
-if [ "$PAK_Debug " == "true " ]; then echo "Reading config files"; fi
-
-source $PAK_etc_dir/version.txt
-source $PAK_etc_dir/current_version.txt
-source $PAK_etc_dir/previous_version.txt
-
-PAK_Full_Ver_Name="SquirrelPAK $PAK_NAME - $PAK_DESC v$PAK_VER"
-PAK_Exported_ModListName=$PAK_NAME-v$PAK_VER-ModsList.txt
-PAK_Short_Ver_Name="SquirrelPAK $PAK_NAME - v$PAK_VER"
-
-
-# Debug output
-if [ "$PAK_Debug " == "true " ]; then
-    echo "Config files loaded, loaded config below:"
-    echo " "
-    echo "PAK_NAME=$PAK_NAME "
-    echo "PAK_RELEASE=$PAK_RELEASE "
-    echo "PAK_VER=$PAK_VER "
-    echo "PAK_DESC=$PAK_DESC "
-    echo "PAK_Menu_Beta_Text=$PAK_Menu_Beta_Text "
-    echo "PAK_Menu_Config_Dir=$PAK_Menu_Config_Dir "
-    echo "PAK_Current_Version=$PAK_Current_Version "
-    echo "PAK_Previous_Version=$PAK_Previous_Version "
-    echo "PAK_CUR_VER=$PAK_CUR_VER"
-    echo "PAK_PREV_VER=$PAK_PREV_VER"
-    echo "PAK_Full_Ver_Name=$PAK_Full_Ver_Name "
-    echo "PAK_Short_Ver_Name=$PAK_Short_Ver_Name "
-    echo "PAK_Exported_ModListName=$PAK_Exported_ModListName "
+# Check for undo file
+if [ ! -f "$PAK_etc_dir/version.txt.undo" ]; then
+	echo "  Error: Undo File not found "
+	echo "  Exiting script, nothing done"
+	echo " ----------------------------------------------------------------------------"
+	exit 1
 fi
 
 
-echo " "
-echo "  PAK Name: SquirrelPAK $PAK_NAME, $PAK_DESC"
-echo " "
-echo "  Current Release Version:"
-echo "  v$PAK_Current_Version" | sed "s/$PAK_NAME-v//" | sed 's/-ModsList.txt//'
-echo " "
-echo "  Current Working Version:"
-echo "  v$PAK_VER"
-# Check if version.txt.undo exists
-if [ -f "$PAK_etc_dir/version.txt.undo" ]; then
-    echo " ----------------------------------------------------------------------------"
-    echo "   Undo Export Command Avilable: Use command [undo_ver.sh] for details"
+# Check for undo file
+if [ ! -f "$PAK_Export_Timestamp_File" ]; then
+	echo "  Error: Export time stamp file not found "
+	echo "  $PAK_Export_Timestamp_File"
+	echo "  Exiting script, nothing done"
+	echo " ----------------------------------------------------------------------------"
+	exit 1
 fi
+
+
+echo " - Remove undo backup file"
+if [ -f $PAK_etc_dir/version.txt.undo.backup ]; then
+	echo "   - Found backup file, removing "
+	rm -v $PAK_etc_dir/version.txt.undo.backup 
+fi
+echo     "done!"
+echo " "
+echo " - Make backup of current undo file"
+mv -v $PAK_etc_dir/version.txt.undo $PAK_etc_dir/version.txt.undo.backup 
+echo "   done!"
+echo " "
+echo " - Create version undo file: $PAK_etc_dir/version.txt.undo"
+cp -v $PAK_etc_dir/version.txt $PAK_etc_dir/version.txt.undo
+echo "   done!"
+echo " "
+echo " - Create new version"
+echo "# Please change the PAK_RELEASE to new version!" > $PAK_etc_dir/version.txt 
+echo "# " >> $PAK_etc_dir/version.txt 
+echo "PAK_RELEASE=ChnageMe!" >> $PAK_etc_dir/version.txt
+echo "# Remove these new lines!" >> $PAK_etc_dir/version.txt
+echo " " >> $PAK_etc_dir/version.txt
+cat $PAK_etc_dir/version.txt.undo >> $PAK_etc_dir/version.txt
+echo "   done!"
+echo " - Update version number via nano/vim"
+nano $PAK_etc_dir/version.txt
+echo "   done"
+echo " "
+echo " - Remove time stamp file"
+rm -v $PAK_Export_Timestamp_File
+echo " done!"
+echo " "
+echo " Script Complete"
+echo " "
 echo " ----------------------------------------------------------------------------"

@@ -3,11 +3,11 @@
 #     Internal script
 #     Shows the diff between current directory and other version
 #     wtd_state_vs_other.sh [OtherModList]
-#     v1.1
+#     v1.1.1
 # 
 
 #     wtd_state_vs_other.sh - Shows the diff between current directory and other version
-#     Copyright (C) 2023 The Network Squirrel(SquirrelCraft)
+#     Copyright (C) 2024 The Network Squirrel(SquirrelCraft)
 #     https://github.com/SquirrelCraft/squirrelpak-scripts     
 #
 #     This program is free software: you can redistribute it and/or modify
@@ -26,10 +26,10 @@
  
 echo " "
 echo " ----------------------------------------------------------------------------"
-echo "  SquirrelPAK Release Diff Tool (State vs Other) v1.1"
+echo "  SquirrelPAK Release Diff Tool (State vs Other) v1.1.1"
 echo "  (wtd_state_vs_other.sh) - Licnesed under GNU GPLv3"
 echo " ----------------------------------------------------------------------------"
-echo " | Copyright (C) 2023 The Network Squirrel(SquirrelCraft)                   |"
+echo " | Copyright (C) 2024 The Network Squirrel(SquirrelCraft)                   |"
 echo " | https://github.com/SquirrelCraft/squirrelpak-scripts                     |"
 echo " | This program comes with ABSOLUTELY NO WARRANTY; This is free software,   |"
 echo " | and you are welcome to redistribute it under certain conditions          |"
